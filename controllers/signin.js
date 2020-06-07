@@ -1,6 +1,9 @@
-const handleSignin= (req,res,db,bcrypt,CLARIFAI_API_KEY)=>{
+const handleSignin= (req,res,db,bcrypt)=>{
     // console.log('sign-in',req.body);
     const {email,password} = req.body;
+    if(!email || !password ){
+        return res.status(400).json({status:"failure",message:'Bad inputs'});
+    }
 
     (async () =>{
         //check if user already exists.
@@ -32,8 +35,6 @@ const handleSignin= (req,res,db,bcrypt,CLARIFAI_API_KEY)=>{
                             entries:usersInfo.entries,
                             joined:usersInfo.joined,
                         },
-                        // CLIENT_ID:process.env.CLIENT_ID,
-                        CLARIFAI_API_KEY:CLARIFAI_API_KEY,
                     });
                 }else{
                     res.status(400).json({status:"failure",message:'error during sign-in, please check inputs'}); 

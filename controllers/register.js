@@ -3,6 +3,9 @@
 const handleRegister= (req,res,db,bcrypt)=> {
     try{        
         const {email,password,name} = req.body;
+        if(!email || !password ||  !name){
+            return res.status(400).json({status:"failure",message:'Bad inputs'});
+        }
         const hash = bcrypt.hashSync(password);
         db.transaction( async trx => {
             

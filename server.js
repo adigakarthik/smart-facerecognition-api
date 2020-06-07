@@ -5,7 +5,7 @@ const cors = require('cors');
 const Register = require('./controllers/register');
 const Signin = require('./controllers/signin');
 const Profile = require('./controllers/profile');
-const ImageEntries = require('./controllers/image-entries');
+const Image = require('./controllers/image');
 
 //using knex as query builder to pg
 var db = require('knex')({
@@ -15,7 +15,6 @@ var db = require('knex')({
 
 
 const app = express();
-const CLARIFAI_API_KEY = process.env.CLARIFAI_API_KEY;
 const port = process.env.port;
 
 //parse the body data to json
@@ -36,7 +35,7 @@ Sign-in route
 gets email & password
 uses bcrypt to compare the password hash on Login table
  */
-app.post('/signin',(req,res)=>{Signin.handleSignin(req,res,db,bcrypt,CLARIFAI_API_KEY)});
+app.post('/signin',(req,res)=>{Signin.handleSignin(req,res,db,bcrypt)});
 
 
 app.post('/register',(req,res)=>{Register.handleRegister(req,res,db,bcrypt)});
@@ -49,15 +48,9 @@ app.get('/profile/:id',(req,res)=>{Profile.handleProfile(res,req,db)})
 /*
 image-entries - is used to increment the entries made by user
 */
-app.put('/image-entries', (req,res)=>{ImageEntries.handleImageEntries(req,res,db)});
-
+app.put('/image-entries', (req,res)=>{Image.handleImageEntries(req,res,db)});
 
 /*
-This is for later use, route would return clarifaiKey
-currently, info is shared when user successfully log-in
+imageRecognition - is used to recognize faces using ClarifAI
 */
-app.post('/clarifaiKey/',(req,res)=>{
-    const {clientid} = req.body;
-    //if clientid exists
-    res.json({key:'abc'})
-})
+app.post('/imageRecognition', (req,res)=>{Image.handleImageRecognition(req,res)});
