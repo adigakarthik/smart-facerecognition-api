@@ -1,18 +1,9 @@
-const Clarifai = require('clarifai');
-require('dotenv').config();
-app = new Clarifai.App({
-    apiKey: process.env.CLARIFAI_API_KEY
-   });
-
-
-const handleImageRecognition = (req, res)=>{
+const handleImageRecognition = (req, res,clarifai_app,Clarifai)=>{
     const {imageUrl} = req.body;
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, imageUrl)
+    clarifai_app.models.predict(Clarifai.FACE_DETECT_MODEL, imageUrl)
     .then(data=>res.json(data))
     .catch(err=> res.status(400).json({status:"failure",message:'error getting response from Clarifai'}))
 }
-
-
 
 const handleImageEntries= (req,res,db)=>{
     const {id} = req.body;

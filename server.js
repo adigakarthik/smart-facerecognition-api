@@ -6,6 +6,7 @@ const Register = require('./controllers/register');
 const Signin = require('./controllers/signin');
 const Profile = require('./controllers/profile');
 const Image = require('./controllers/image');
+const Clarifai = require('clarifai');
 
 //using knex as query builder to pg
 var db = require('knex')({
@@ -16,6 +17,12 @@ var db = require('knex')({
 
 const app = express();
 const port = process.env.port;
+const CLARIFAI_API_KEY = process.env.CLARIFAI_API_KEY;
+
+
+const clarifai_app = new Clarifai.App({
+    apiKey: CLARIFAI_API_KEY
+   });
 
 //parse the body data to json
 app.use(express.json());
@@ -53,4 +60,4 @@ app.put('/image-entries', (req,res)=>{Image.handleImageEntries(req,res,db)});
 /*
 imageRecognition - is used to recognize faces using ClarifAI
 */
-app.post('/imageRecognition', (req,res)=>{Image.handleImageRecognition(req,res)});
+app.post('/imageRecognition', (req,res)=>{Image.handleImageRecognition(req,res,clarifai_app,Clarifai)});
