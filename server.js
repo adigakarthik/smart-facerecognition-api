@@ -16,7 +16,7 @@ var db = require('knex')({
 
 
 const app = express();
-const port = process.env.port;
+const PORT = process.env.PORT;
 const CLARIFAI_API_KEY = process.env.CLARIFAI_API_KEY;
 
 
@@ -33,8 +33,8 @@ app.get('/',(req,res)=>{
     res.json('Hello there, Welcome home!')
 })
 
-app.listen(port, ()=>{
-    console.log(`app is running on port ${port}`)
+app.listen(PORT, ()=>{
+    console.log(`app is running on PORT ${PORT}`)
 });
 
 /*
