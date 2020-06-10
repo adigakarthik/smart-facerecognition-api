@@ -11,7 +11,8 @@ const Clarifai = require('clarifai');
 //using knex as query builder to pg
 var db = require('knex')({
     client: 'pg',
-    connection: JSON.parse(process.env.PG_CONNECTION_STRING),
+    connection: JSON.parse(process.env.DATABASE_URL),
+    ssl: true
   });
 
 
